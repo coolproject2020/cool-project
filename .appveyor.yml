@@ -44,7 +44,7 @@ after_build:
   - 7z a -tzip otbr.zip -r .\vc14\*.exe -ir!.\vc14\*.dll
 
 cache:
-  - C:\tools\vcpkg\installed\
+  - c:\tools\vcpkg\installed\
 
 artifacts:
   - path: vc14\**\theforgottenserver*.exe
