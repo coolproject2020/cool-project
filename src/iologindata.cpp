@@ -763,7 +763,7 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result)
 	return true;
 }
 
-//load autoloot list set
+	//load autoloot list set
 	query.str(std::string());
 	query << "SELECT `autoloot_list` FROM `player_autoloot` WHERE `player_id` = " << player->getGUID();
 	if ((result = db.storeQuery(query.str()))) {
@@ -1200,6 +1200,33 @@ bool IOLoginData::savePlayer(Player* player)
 		return false;
 	}
 
+	//Autoloot (save autoloot list)
+	query.str(std::string());
+	query << "DELETE FROM `player_autoloot` WHERE `player_id` = " << player->getGUID();
+	if (!db.executeQuery(query.str())) {
+		return false;
+	}
+
+	PropWriteStream propWriteStreamAutoLoot;
+
+	for (auto i : player->autoLootList) {
+		propWriteStreamAutoLoot.write<uint16_t>(i);
+	}
+
+	size_t lootlistSize;
+	const char* autolootlist = propWriteStreamAutoLoot.getStream(lootlistSize);
+
+	query.str(std::string());
+
+	DBInsert autolootQuery("INSERT INTO `player_autoloot` (`player_id`, `autoloot_list`) VALUES ");
+	query << player->getGUID() << ',' << db.escapeBlob(autolootlist, lootlistSize);
+	if (!autolootQuery.addRow(query)) {
+		return false;
+	}
+	if (!autolootQuery.execute()) {
+		return false;
+	}
+
 	//End the transaction
 	return transaction.commit();
 }
@@ -1358,33 +1385,6 @@ void IOLoginData::removeVIPEntry(uint32_t accountId, uint32_t guid)
 	query << "DELETE FROM `account_viplist` WHERE `account_id` = " << accountId << " AND `player_id` = " << guid;
 	Database::getInstance().executeQuery(query.str());
 }
-
-//Autoloot (save autoloot list)
-	query.str(std::string());
-	query << "DELETE FROM `player_autoloot` WHERE `player_id` = " << player->getGUID();
-	if (!db.executeQuery(query.str())) {
-		return false;
-	}
-
-	PropWriteStream propWriteStreamAutoLoot;
-
-	for (auto i : player->autoLootList) {
-		propWriteStreamAutoLoot.write<uint16_t>(i);
-	}
-
-	size_t lootlistSize;
-	const char* autolootlist = propWriteStreamAutoLoot.getStream(lootlistSize);
-
-	query.str(std::string());
-
-	DBInsert autolootQuery("INSERT INTO `player_autoloot` (`player_id`, `autoloot_list`) VALUES ");
-	query << player->getGUID() << ',' << db.escapeBlob(autolootlist, lootlistSize);
-	if (!autolootQuery.addRow(query)) {
-		return false;
-	}
-	if (!autolootQuery.execute()) {
-		return false;
-	}
 
 void IOLoginData::addPremiumDays(uint32_t accountId, int32_t addDays)
 {
