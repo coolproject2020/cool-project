@@ -1,8 +1,6 @@
 /**
- * @file luascript.cpp
- * 
  * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2019 Mark Samman <mark.samman@gmail.com>
+ * Copyright (C) 2019  Mark Samman <mark.samman@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1978,7 +1976,6 @@ void LuaScriptInterface::registerFunctions()
 	registerEnumIn("configKeys", ConfigManager::REMOVE_WEAPON_CHARGES)
 	registerEnumIn("configKeys", ConfigManager::REMOVE_POTION_CHARGES)
 	registerEnumIn("configKeys", ConfigManager::STOREMODULES)
-	registerEnumIn("configKeys", ConfigManager::QUEST_LUA)
 
 	registerEnumIn("configKeys", ConfigManager::SERVER_SAVE_NOTIFY_MESSAGE)
 	registerEnumIn("configKeys", ConfigManager::SERVER_SAVE_NOTIFY_DURATION)
@@ -2044,6 +2041,7 @@ void LuaScriptInterface::registerFunctions()
 	registerEnumIn("configKeys", ConfigManager::RED_SKULL_DURATION)
 	registerEnumIn("configKeys", ConfigManager::BLACK_SKULL_DURATION)
 	registerEnumIn("configKeys", ConfigManager::ORANGE_SKULL_DURATION)
+	registerEnumIn("configKeys", ConfigManager::AUTOLOOT_MODE)
 
 	registerEnumIn("configKeys", ConfigManager::RATE_MONSTER_HEALTH)
 	registerEnumIn("configKeys", ConfigManager::RATE_MONSTER_ATTACK)
@@ -2361,6 +2359,7 @@ void LuaScriptInterface::registerFunctions()
 
 	registerMethod("Creature", "getCondition", LuaScriptInterface::luaCreatureGetCondition);
 	registerMethod("Creature", "addCondition", LuaScriptInterface::luaCreatureAddCondition);
+	registerMethod("Creature", "clearConditions", LuaScriptInterface::luaCombatClearConditions);
 	registerMethod("Creature", "removeCondition", LuaScriptInterface::luaCreatureRemoveCondition);
 
 	registerMethod("Creature", "remove", LuaScriptInterface::luaCreatureRemove);
@@ -2611,6 +2610,12 @@ void LuaScriptInterface::registerFunctions()
 
 	registerMethod("Player", "getIdleTime", LuaScriptInterface::luaPlayerGetIdleTime);
 	registerMethod("Player", "getFreeBackpackSlots", LuaScriptInterface::luaPlayerGetFreeBackpackSlots);
+
+	//Autoloot
+	registerMethod("Player", "addAutoLootItem", LuaScriptInterface::luaPlayerAddAutoLootItem);
+	registerMethod("Player", "removeAutoLootItem", LuaScriptInterface::luaPlayerRemoveAutoLootItem);
+	registerMethod("Player", "getAutoLootItem", LuaScriptInterface::luaPlayerGetAutoLootItem);
+	registerMethod("Player", "getAutoLootList", LuaScriptInterface::luaPlayerGetAutoLootList);
 
 	// Monster
 	registerClass("Monster", "Creature", LuaScriptInterface::luaMonsterCreate);
@@ -11220,6 +11225,117 @@ int LuaScriptInterface::luaPlayerGetIdleTime(lua_State* L)
 	return 1;
 }
 
+int LuaScriptInterface::luaPlayerAddAutoLootItem(lua_State* L)
+{
+	// player:addAutoLootItem(itemId)
+	Player* player = getUserdata<Player>(L, 1);
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	uint16_t itemId;
+	if (isNumber(L, 2)) {
+		itemId = getNumber<uint16_t>(L, 2);
+	}
+	else {
+		itemId = Item::items.getItemIdByName(getString(L, 2));
+		if (itemId == 0) {
+			lua_pushnil(L);
+			return 1;
+		}
+	}
+	player->addAutoLootItem(itemId);
+	pushBoolean(L, true);
+	return 1;
+}
+
+int LuaScriptInterface::luaPlayerRemoveAutoLootItem(lua_State* L)
+{
+	// player:removeAutoLootItem(itemId)
+	Player* player = getUserdata<Player>(L, 1);
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	uint16_t itemId;
+	if (isNumber(L, 2)) {
+		itemId = getNumber<uint16_t>(L, 2);
+	}
+	else {
+		itemId = Item::items.getItemIdByName(getString(L, 2));
+		if (itemId == 0) {
+			lua_pushnil(L);
+			return 1;
+		}
+	}
+
+	player->removeAutoLootItem(itemId);
+	pushBoolean(L, true);
+
+	return 1;
+}
+
+int LuaScriptInterface::luaPlayerGetAutoLootItem(lua_State* L)
+{
+	// player:getAutoLootItem(itemId)
+	Player* player = getUserdata<Player>(L, 1);
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	uint16_t itemId;
+	if (isNumber(L, 2)) {
+		itemId = getNumber<uint16_t>(L, 2);
+	}
+	else {
+		itemId = Item::items.getItemIdByName(getString(L, 2));
+		if (itemId == 0) {
+			lua_pushnil(L);
+			return 1;
+		}
+	}
+
+	if (player->getAutoLootItem(itemId)) {
+		pushBoolean(L, true);
+	}
+	else {
+		pushBoolean(L, false);
+	}
+
+	return 1;
+}
+
+int LuaScriptInterface::luaPlayerGetAutoLootList(lua_State* L)
+{
+	// player:getAutoLootList()
+	Player* player = getUserdata<Player>(L, 1);
+
+	if (player) {
+		std::unordered_set<uint32_t> value = player->autoLootList;
+
+		if (value.size() == 0) {
+			lua_pushnil(L);
+			return 1;
+		}
+
+		int index = 0;
+		lua_createtable(L, value.size(), 0);
+		for (auto i : value) {
+			lua_pushnumber(L, i);
+			lua_rawseti(L, -2, ++index);
+		}
+
+	}
+	else {
+		lua_pushnil(L);
+	}
+
+	return 1;
+}
+
 int LuaScriptInterface::luaPlayerGetFreeBackpackSlots(lua_State* L)
 {
 	// player:getFreeBackpackSlots()
@@ -13259,6 +13375,19 @@ int LuaScriptInterface::luaCombatSetCondition(lua_State* L)
 	Combat* combat = getUserdata<Combat>(L, 1);
 	if (combat && condition) {
 		combat->addCondition(condition->clone());
+		pushBoolean(L, true);
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaCombatClearConditions(lua_State* L)
+{
+	// combat:clearConditions()
+	Combat* combat = getUserdata<Combat>(L, 1);
+	if (combat) {
+		combat->clearConditions();
 		pushBoolean(L, true);
 	} else {
 		lua_pushnil(L);

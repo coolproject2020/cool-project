@@ -1,8 +1,6 @@
 /**
- * @file luascript.h
- * 
  * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2019 Mark Samman <mark.samman@gmail.com>
+ * Copyright (C) 2019  Mark Samman <mark.samman@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -263,6 +261,12 @@ class LuaScriptInterface
 
 		static std::string popString(lua_State* L);
 		static int32_t popCallback(lua_State* L);
+
+		//Autoloot
+		static int luaPlayerAddAutoLootItem(lua_State* L);
+		static int luaPlayerRemoveAutoLootItem(lua_State* L);
+		static int luaPlayerGetAutoLootItem(lua_State* L);
+		static int luaPlayerGetAutoLootList(lua_State* L);
 
 		// Userdata
 		template<class T>
@@ -1271,6 +1275,7 @@ class LuaScriptInterface
 
 		static int luaCombatSetArea(lua_State* L);
 		static int luaCombatSetCondition(lua_State* L);
+		static int luaCombatClearConditions(lua_State* L);
 		static int luaCombatSetCallback(lua_State* L);
 		static int luaCombatSetOrigin(lua_State* L);
 

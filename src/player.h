@@ -1,8 +1,6 @@
 /**
- * @file player.h
- * 
  * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2019 Mark Samman <mark.samman@gmail.com>
+ * Copyright (C) 2019  Mark Samman <mark.samman@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1312,6 +1310,11 @@ class Player final : public Creature, public Cylinder
 		void forgetInstantSpell(const std::string& spellName);
 		bool hasLearnedInstantSpell(const std::string& spellName) const;
 
+		//Autoloot
+		void addAutoLootItem(uint16_t itemId);
+		void removeAutoLootItem(uint16_t itemId);
+		bool getAutoLootItem(uint16_t itemId);
+
 		const std::map<uint8_t, OpenContainer>& getOpenContainers() const {
 			return openContainers;
 		}
@@ -1451,6 +1454,9 @@ class Player final : public Creature, public Cylinder
 		void internalAddThing(uint32_t index, Thing* thing) final;
 
 		std::unordered_set<uint32_t> attackedSet;
+
+		 //Autoloot
+		std::unordered_set<uint32_t> autoLootList;
 
 		std::unordered_set<uint32_t> VIPList;
 

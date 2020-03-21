@@ -1,8 +1,6 @@
  /**
- * @file definitions.h
- * 
  * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2019 Mark Samman <mark.samman@gmail.com>
+ * Copyright (C) 2019  Mark Samman <mark.samman@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,9 +20,9 @@
 #ifndef OT_SRC_DEFINITIONS_H_
 #define OT_SRC_DEFINITIONS_H_
 
-static constexpr auto STATUS_SERVER_NAME = "OTServBR - Global";
-static constexpr auto STATUS_SERVER_VERSION = "Based on TFS 1.3";
-static constexpr auto STATUS_SERVER_CREDITS = "OTServBR Team and Contributors, OTXServer (Mattyx Gomez) and The Forgotten Server Developers";
+static constexpr auto STATUS_SERVER_NAME = "OTX Server";
+static constexpr auto STATUS_SERVER_VERSION = "4";
+static constexpr auto STATUS_SERVER_CREDITS = "OTServBR Server, The Forgotten Server and Contributors";
 
 static constexpr auto CLIENT_VERSION_MIN = 1100;
 static constexpr auto CLIENT_VERSION_MAX = 1200;

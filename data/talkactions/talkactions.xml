@@ -1,3 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <talkactions>
+	<!-- commands -->
+	<!-- player talkactions -->
+	<talkaction words="!buypremium" script="buyprem.lua" />
+	<talkaction words="!kills" script="kills.lua" />
+	<talkaction words="!saveme" script="saveme.lua" />
+	<talkaction words="!serverinfo" script="serverinfo.lua" />
+	<talkaction words="!online" script="online.lua" />
+	<talkaction words="!commands" script="commands.lua" />
+	<talkaction words="!autoloot" separator=" " script="autoloot.lua"/>
+	<talkaction words="!add" separator=" " script="add_autoloot.lua" />
 </talkactions>

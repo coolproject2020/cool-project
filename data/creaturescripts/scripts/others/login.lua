@@ -44,17 +44,6 @@ function onLogin(player)
 
     player:loadSpecialStorage()
 
-    --[[-- Maintenance mode
-    if (player:getGroup():getId() < 2) then
-        return false
-    else
-
-    end--]]
-
-    if (player:getGroup():getId() >= 4) then
-        player:setGhostMode(true)
-    end
-
     -- Stamina
     nextUseStaminaTime[playerId] = 1
 

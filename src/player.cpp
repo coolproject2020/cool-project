@@ -1,8 +1,6 @@
 /**
- * @file player.cpp
- * 
  * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2019 Mark Samman <mark.samman@gmail.com>
+ * Copyright (C) 2019  Mark Samman <mark.samman@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -4844,6 +4842,22 @@ void Player::setGuild(Guild* newGuild)
 	if (oldGuild) {
 		oldGuild->removeMember(this);
 	}
+}
+
+//Autoloot
+void Player::addAutoLootItem(uint16_t itemId)
+{
+	autoLootList.insert(itemId);
+}
+
+void Player::removeAutoLootItem(uint16_t itemId)
+{
+	autoLootList.erase(itemId);
+}
+
+bool Player::getAutoLootItem(const uint16_t itemId)
+{
+	return autoLootList.find(itemId) != autoLootList.end();
 }
 
 //Custom: Anti bug of market

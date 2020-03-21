@@ -1,8 +1,6 @@
 /**
- * @file spawn.cpp
- * 
  * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2019 Mark Samman <mark.samman@gmail.com>
+ * Copyright (C) 2019  Mark Samman <mark.samman@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -292,10 +290,11 @@ void Spawn::cleanup()
 {
 	auto it = spawnedMap.begin();
 	while (it != spawnedMap.end()) {
-	        uint32_t spawnId = it->first;
+		uint32_t spawnId = it->first;
 		Monster* monster = it->second;
-	        if (monster->isRemoved()) {
-		        spawnMap[spawnId].lastSpawn = OTSYS_TIME();
+		if (monster->isRemoved()) {
+			spawnMap[spawnId].lastSpawn = OTSYS_TIME();
+
 			monster->decrementReferenceCounter();
 			it = spawnedMap.erase(it);
 		} else {

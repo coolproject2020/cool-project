@@ -1,8 +1,6 @@
 /**
- * @file protocolgame.cpp
- * 
  * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2019 Mark Samman <mark.samman@gmail.com>
+ * Copyright (C) 2019  Mark Samman <mark.samman@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -144,7 +142,7 @@ void ProtocolGame::login(const std::string& name, uint32_t accountId, OperatingS
 		if (!IOLoginData::loadPlayerPreyData(player)) {
 			std::cout << "Prey data could not be loaded" << std::endl;
 			return;
-		};
+		}
 
 		player->setOperatingSystem(operatingSystem);
 

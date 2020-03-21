@@ -2,43 +2,6 @@ function Player.allowMovement(self, allow)
 	return self:setStorageValue(STORAGE.blockMovementStorage, allow and -1 or 1)
 end
 
-function Player.checkGnomeRank(self)
-	local points = self:getStorageValue(Storage.BigfootBurden.Rank)
-	local questProgress = self:getStorageValue(Storage.BigfootBurden.QuestLine)
-	if points >= 30 and points < 120 then
-		if questProgress <= 25 then
-			self:setStorageValue(Storage.BigfootBurden.QuestLine, 26)
-			self:getPosition():sendMagicEffect(CONST_ME_MAGIC_BLUE)
-			self:addAchievement('Gnome Little Helper')
-		end
-	elseif points >= 120 and points < 480 then
-		if questProgress <= 26 then
-			self:setStorageValue(Storage.BigfootBurden.QuestLine, 27)
-			self:getPosition():sendMagicEffect(CONST_ME_MAGIC_BLUE)
-			self:addAchievement('Gnome Little Helper')
-			self:addAchievement('Gnome Friend')
-		end
-	elseif points >= 480 and points < 1440 then
-		if questProgress <= 27 then
-			self:setStorageValue(Storage.BigfootBurden.QuestLine, 28)
-			self:getPosition():sendMagicEffect(CONST_ME_MAGIC_BLUE)
-			self:addAchievement('Gnome Little Helper')
-			self:addAchievement('Gnome Friend')
-			self:addAchievement('Gnomelike')
-		end
-	elseif points >= 1440 then
-		if questProgress <= 29 then
-			self:setStorageValue(Storage.BigfootBurden.QuestLine, 30)
-			self:getPosition():sendMagicEffect(CONST_ME_MAGIC_BLUE)
-			self:addAchievement('Gnome Little Helper')
-			self:addAchievement('Gnome Friend')
-			self:addAchievement('Gnomelike')
-			self:addAchievement('Honorary Gnome')
-		end
-	end
-	return true
-end
-
 function Player.addFamePoint(self)
     local points = self:getStorageValue(SPIKE_FAME_POINTS)
     local current = math.max(0, points)
@@ -106,21 +69,6 @@ function Player.getClosestFreePosition(self, position, extended)
 	return Creature.getClosestFreePosition(self, position, extended)
 end
 
-function Player.getCookiesDelivered(self)
-	local storage, amount = {
-		STORAGE.WHATAFOOLISHQUEST.COOKIEDELIVERY.SIMONTHEBEGGAR, STORAGE.WHATAFOOLISHQUEST.COOKIEDELIVERY.MARKWIN, STORAGE.WHATAFOOLISHQUEST.COOKIEDELIVERY.ARIELLA,
-		STORAGE.WHATAFOOLISHQUEST.COOKIEDELIVERY.HAIRYCLES, STORAGE.WHATAFOOLISHQUEST.COOKIEDELIVERY.DJINN, STORAGE.WHATAFOOLISHQUEST.COOKIEDELIVERY.AVARTAR,
-		STORAGE.WHATAFOOLISHQUEST.COOKIEDELIVERY.ORCKING, STORAGE.WHATAFOOLISHQUEST.COOKIEDELIVERY.LORBAS, STORAGE.WHATAFOOLISHQUEST.COOKIEDELIVERY.WYDA,
-		STORAGE.WHATAFOOLISHQUEST.COOKIEDELIVERY.HJAERN
-	}, 0
-	for i = 1, #storage do
-		if self:getStorageValue(storage[i]) == 1 then
-			amount = amount + 1
-		end
-	end
-	return amount
-end
-
 function Player.getDepotItems(self, depotId)
 	return self:getDepotChest(depotId, true):getItemHoldingCount()
 end
@@ -140,15 +88,6 @@ end
 
 function Player.hasAllowMovement(self)
 	return self:getStorageValue(STORAGE.blockMovementStorage) ~= 1
-end
-
-function Player.hasRookgaardShield(self)
-	-- Wooden Shield, Studded Shield, Brass Shield, Plate Shield, Copper Shield
-	return self:getItemCount(2512) > 0
-			or self:getItemCount(2526) > 0
-			or self:getItemCount(2511) > 0
-			or self:getItemCount(2510) > 0
-			or self:getItemCount(2530) > 0
 end
 
 function Player.isDruid(self)

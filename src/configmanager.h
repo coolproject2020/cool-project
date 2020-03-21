@@ -1,8 +1,6 @@
 /**
- * @file configmanager.h
- * 
  * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2019 Mark Samman <mark.samman@gmail.com>
+ * Copyright (C) 2019  Mark Samman <mark.samman@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,7 +47,6 @@ class ConfigManager
 			REMOVE_WEAPON_CHARGES,
 			REMOVE_POTION_CHARGES,
 			STOREMODULES,
-			QUEST_LUA,
 			SERVER_SAVE_NOTIFY_MESSAGE,
 			SERVER_SAVE_CLEAN_MAP,
 			SERVER_SAVE_CLOSE,
@@ -120,6 +117,7 @@ class ConfigManager
 			FREE_DEPOT_LIMIT,
 			PREMIUM_DEPOT_LIMIT,
 			DEPOT_BOXES,
+			AUTOLOOT_MODE,
 			DAY_KILLS_TO_RED,
 			WEEK_KILLS_TO_RED,
 			MONTH_KILLS_TO_RED,

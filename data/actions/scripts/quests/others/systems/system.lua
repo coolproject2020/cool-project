@@ -1,27 +1,9 @@
 local specialQuests = {
-	[2215] = Storage.AnnihilatorDone,
-	[2016] = Storage.DreamersChallenge.Reward,
-	[10544] = Storage.PitsOfInferno.WeaponReward,
-	[12513] = Storage.thievesGuild.Reward,
-	[12374] = Storage.WrathoftheEmperor.mainReward,
-	[26300] = Storage.SvargrondArena.RewardGreenhorn,
-	[27300] = Storage.SvargrondArena.RewardScrapper,
-	[28300] = Storage.SvargrondArena.RewardWarlord
+	[2215] = Storage.AnnihilatorDone
 }
 
 local questsExperience = {
 	[2217] = 1 -- dummy values
-}
-
-local questLog = {
-	[9130] = Storage.hiddenCityOfBeregar.DefaultStart
-}
-
-local tutorialIds = {
-	[50080] = 5,
-	[50082] = 6,
-	[50084] = 10,
-	[50086] = 11
 }
 
 local achievementChest = {
@@ -107,27 +89,12 @@ function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 		player:addExperience(questsExperience[storage], true)
 	end
 
-	if questLog[storage] then
-		player:setStorageValue(questLog[storage], 1)
-	end
-
-	if tutorialIds[storage] then
-		player:sendTutorial(tutorialIds[storage])
-		if item.uid == 50080 then
-			player:setStorageValue(Storage.RookgaardTutorialIsland.SantiagoNpcGreetStorage, 3)
-		end
-	end
-
-	if isInArray(hotaQuest, item.uid) then
-		if player:getStorageValue(Storage.TheAncientTombs.DefaultStart) ~= 1 then
-			player:setStorageValue(Storage.TheAncientTombs.DefaultStart, 1)
-		end
-	end
-
 	-- add Achievements
-	if(achievementChest[item.actionid])then
-		player:addAchievement(achievementChest[item.actionid])
-	end
+	--[[
+		if(achievementChest[item.actionid])then
+			player:addAchievement(achievementChest[item.actionid])
+		end
+	]]
 
 	player:sendTextMessage(MESSAGE_EVENT_ADVANCE, 'You have found ' .. result .. '.')
 	player:setStorageValue(storage, 1)

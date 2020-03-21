@@ -1,8 +1,6 @@
 /**
- * @file otserv.cpp
- * 
  * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2019 Mark Samman <mark.samman@gmail.com>
+ * Copyright (C) 2019  Mark Samman <mark.samman@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -89,7 +87,6 @@ int main(int argc, char* argv[])
 	g_loaderSignal.wait(g_loaderUniqueLock);
 
 	if (serviceManager.is_running()) {
-
 		std::cout << ">> " << g_config.getString(ConfigManager::SERVER_NAME) << " Server Online!" << std::endl << std::endl;
 		serviceManager.run();
 	} else {
@@ -129,10 +126,8 @@ void mainLoader(int argc, char* argv[], ServiceManager* services)
 #endif
 	std::cout << std::endl;
 
+	std::cout << "Visit our forum for updates, support, and resources: https://github.com/mattyx14/otxserver/tree/otxserv4/" << std::endl;
 	std::cout << "Special Credits for: " << STATUS_SERVER_CREDITS << "." << std::endl;
-	std::cout << "Visit our forum for updates, support, and resources: https://forums.otserv.com.br/" << std::endl;
-	std::cout << "Link of repository: https://github.com/opentibiabr/OTServBR-Global/" << std::endl;
-	std::cout << "List of contributors: https://github.com/opentibiabr/OTServBR-Global/graphs/contributors" << std::endl;
 	std::cout << std::endl;
 
 	// TODO: dirty for now; Use stdarg;
@@ -160,7 +155,7 @@ void mainLoader(int argc, char* argv[], ServiceManager* services)
 #endif
 
 	//set RSA key
-    g_RSA.loadPEM("key.pem");
+	g_RSA.loadPEM("key.pem");
 
 	std::cout << ">> Establishing database connection..." << std::flush;
 

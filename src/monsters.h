@@ -1,8 +1,6 @@
 /**
- * @file monsters.h
- * 
  * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2019 Mark Samman <mark.samman@gmail.com>
+ * Copyright (C) 2019  Mark Samman <mark.samman@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -262,7 +260,7 @@ class Monsters
 		MonsterType* getMonsterType(const std::string& name);
 		void addMonsterType(const std::string& name, MonsterType* mType);
 		bool deserializeSpell(MonsterSpell* spell, spellBlock_t& sb, const std::string& description = "");
-		
+
 		std::unique_ptr<LuaScriptInterface> scriptInterface;
 		bool loadCallback(LuaScriptInterface* scriptInterface, MonsterType* mType);
 
