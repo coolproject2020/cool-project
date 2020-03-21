@@ -453,12 +453,6 @@ class LuaScriptInterface
 
 		static int luaDoAreaCombatHealth(lua_State* L);
 		static int luaDoTargetCombatHealth(lua_State* L);
-		
-		//Autoloot
-		static int luaPlayerAddAutoLootItem(lua_State* L);
-        static int luaPlayerRemoveAutoLootItem(lua_State* L);
-        static int luaPlayerGetAutoLootItem(lua_State* L);
-        static int luaPlayerGetAutoLootList(lua_State* L);
 
 		//
 		static int luaDoAreaCombatMana(lua_State* L);

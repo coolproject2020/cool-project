@@ -1362,11 +1362,6 @@ class Player final : public Creature, public Cylinder
 		void onEquipImbueItem(Imbuement* imbuement);
 		void onDeEquipImbueItem(Imbuement* imbuement);
 
-		//Autoloot
-		void addAutoLootItem(uint16_t itemId);
-		void removeAutoLootItem(uint16_t itemId);
-		bool getAutoLootItem(uint16_t itemId);
-		
 		//Custom: Anti bug do market
 		bool isMarketExhausted() const;
 		void updateMarketExhausted() {
@@ -1465,9 +1460,6 @@ class Player final : public Creature, public Cylinder
 		std::map<uint32_t, int32_t> storageMap;
 		std::map<uint8_t, int64_t> moduleDelayMap;
 
-		//Autoloot
-		std::unordered_set<uint32_t> autoLootList;
-		
 		std::map<uint32_t, Reward*> rewardMap;
 
 		std::vector<OutfitEntry> outfits;

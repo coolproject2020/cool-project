@@ -147,7 +147,7 @@ bool ConfigManager::load()
 	boolean[AIMBOT_HOTKEY_ENABLED] = getGlobalBoolean(L, "hotkeyAimbotEnabled", true);
 	boolean[REMOVE_RUNE_CHARGES] = getGlobalBoolean(L, "removeChargesFromRunes", true);
 	boolean[EXPERIENCE_FROM_PLAYERS] = getGlobalBoolean(L, "experienceByKillingPlayers", false);
-	boolean[FREE_PREMIUM] = getGlobalBoolean(L, "freePremium", true);
+	boolean[FREE_PREMIUM] = getGlobalBoolean(L, "freePremium", false);
 	boolean[REPLACE_KICK_ON_LOGIN] = getGlobalBoolean(L, "replaceKickOnLogin", true);
 	boolean[ALLOW_CLONES] = getGlobalBoolean(L, "allowClones", false);
 	boolean[MARKET_PREMIUM] = getGlobalBoolean(L, "premiumToCreateMarketOffer", true);
@@ -169,12 +169,12 @@ bool ConfigManager::load()
 	boolean[SERVER_SAVE_SHUTDOWN] = getGlobalBoolean(L, "serverSaveShutdown", true);
 
 	string[DEFAULT_PRIORITY] = getGlobalString(L, "defaultPriority", "high");
-	string[SERVER_NAME] = getGlobalString(L, "serverName", "Cool Project");
+	string[SERVER_NAME] = getGlobalString(L, "serverName", "");
 	string[OWNER_NAME] = getGlobalString(L, "ownerName", "");
 	string[OWNER_EMAIL] = getGlobalString(L, "ownerEmail", "");
 	string[URL] = getGlobalString(L, "url", "");
 	string[LOCATION] = getGlobalString(L, "location", "");
-	string[MOTD] = getGlobalString(L, "motd", "Cool Project");
+	string[MOTD] = getGlobalString(L, "motd", "");
 	string[WORLD_TYPE] = getGlobalString(L, "worldType", "pvp");
 	string[STORE_IMAGES_URL] = getGlobalString(L, "coinImagesURL", "");
 
@@ -192,7 +192,7 @@ bool ConfigManager::load()
 	integer[EX_ACTIONS_DELAY_INTERVAL] = getGlobalNumber(L, "timeBetweenExActions", 1000);
 	integer[MAX_MESSAGEBUFFER] = getGlobalNumber(L, "maxMessageBuffer", 4);
 	integer[KICK_AFTER_MINUTES] = getGlobalNumber(L, "kickIdlePlayerAfterMinutes", 15);
-	integer[PROTECTION_LEVEL] = getGlobalNumber(L, "protectionLevel", 50);
+	integer[PROTECTION_LEVEL] = getGlobalNumber(L, "protectionLevel", 1);
 	integer[DEATH_LOSE_PERCENT] = getGlobalNumber(L, "deathLosePercent", -1);
 	integer[STATUSQUERY_TIMEOUT] = getGlobalNumber(L, "statusTimeout", 5000);
 	integer[FRAG_TIME] = getGlobalNumber(L, "timeToDecreaseFrags", 45 * 24 * 60 * 60);
@@ -204,15 +204,14 @@ bool ConfigManager::load()
 	integer[CHECK_EXPIRED_MARKET_OFFERS_EACH_MINUTES] = getGlobalNumber(L, "checkExpiredMarketOffersEachMinutes", 60);
 	integer[MAX_MARKET_OFFERS_AT_A_TIME_PER_PLAYER] = getGlobalNumber(L, "maxMarketOffersAtATimePerPlayer", 100);
 	integer[MAX_PACKETS_PER_SECOND] = getGlobalNumber(L, "maxPacketsPerSecond", 25);
-	integer[STORE_COIN_PACKET] = getGlobalNumber(L, "coinPacketSize", 10);
-	integer[DAY_KILLS_TO_RED] = getGlobalNumber(L, "dayKillsToRedSkull", 5);
-	integer[WEEK_KILLS_TO_RED] = getGlobalNumber(L, "weekKillsToRedSkull", 30);
-	integer[MONTH_KILLS_TO_RED] = getGlobalNumber(L, "monthKillsToRedSkull", 50);
-	integer[RED_SKULL_DURATION] = getGlobalNumber(L, "redSkullDuration", 5);
-	integer[BLACK_SKULL_DURATION] = getGlobalNumber(L, "blackSkullDuration", 10);
+	integer[STORE_COIN_PACKET] = getGlobalNumber(L, "coinPacketSize", 25);
+	integer[DAY_KILLS_TO_RED] = getGlobalNumber(L, "dayKillsToRedSkull", 3);
+	integer[WEEK_KILLS_TO_RED] = getGlobalNumber(L, "weekKillsToRedSkull", 5);
+	integer[MONTH_KILLS_TO_RED] = getGlobalNumber(L, "monthKillsToRedSkull", 10);
+	integer[RED_SKULL_DURATION] = getGlobalNumber(L, "redSkullDuration", 30);
+	integer[BLACK_SKULL_DURATION] = getGlobalNumber(L, "blackSkullDuration", 45);
 	integer[ORANGE_SKULL_DURATION] = getGlobalNumber(L, "orangeSkullDuration", 7);
 	integer[SERVER_SAVE_NOTIFY_DURATION] = getGlobalNumber(L, "serverSaveNotifyDuration", 5);
-	integer[AUTOLOOT_MODE] = getGlobalNumber(L, "autolootmode", 0);
 
 	floating[RATE_MONSTER_HEALTH] = getGlobalFloat(L, "rateMonsterHealth", 1.0);
 	floating[RATE_MONSTER_ATTACK] = getGlobalFloat(L, "rateMonsterAttack", 1.0);
